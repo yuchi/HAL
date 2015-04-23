@@ -17,9 +17,24 @@ option(HAL_DISABLE_TESTS "Disable compiling the tests" OFF)
 # Define helper functions and macros.
 include(${PROJECT_SOURCE_DIR}/cmake/internal_utils.cmake)
 
+# Target architecture, only available for iOS
+set(ARCH "i386" CACHE STRING "Target Architecture")
+
+# Target platform, only available on Xcode
+# "macosx", "iphoneos" or "iphonesimulator"
+set(PLATFORM "macosx" CACHE STRING "Target Platform")
+
+# Build shared library by default
+set(LIBRARY_BUILD_TYPE SHARED)
+
 # Defined in internal_utils.cmake.
 config_compiler_and_linker()
-#config_cmake_system_framework_path(macosx)
+
+# Prepare SDK configuration for iOS
+if (NOT WIN32 AND ${PLATFORM} STREQUAL "iphoneos" OR ${PLATFORM} STREQUAL "iphonesimulator")
+  set(LIBRARY_BUILD_TYPE STATIC)
+  config_cmake_system_framework_path(${PLATFORM})
+endif()
 
 # Allow "make test" to work.
 enable_testing()
@@ -140,7 +155,7 @@ source_group(HAL\\JSLogger\\detail FILES ${SOURCE_JSLogger_detail})
 #set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 #set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
-add_library(HAL SHARED
+add_library(HAL ${LIBRARY_BUILD_TYPE}
   ${SOURCE_HAL}
   ${SOURCE_HAL_detail}
   ${SOURCE_JSExport}

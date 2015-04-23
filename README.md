@@ -21,6 +21,10 @@ $ curl -O http://timobile.appcelerator.com.s3.amazonaws.com/gtest-1.7.0-osx.zip
 $ unzip gtest-1.7.0-osx.zip
 ```
 
+### iOS
+
+Step 1. Make sure you have all prerequisites described above.
+
 ### Windows
 
 Step 1. Install Visual Studio 2013
@@ -61,6 +65,12 @@ To run our unit tests on both both OS X and Windows:
 
 ```bash
 build_and_test.sh
+```
+
+To build static library for iOS simulator, run following command. Note that this builds iOS static library for iPhone simulator by default. If you need a static library for the device, edit `build_ios.sh` and change ARCH and PLATFORM variables.
+
+```bash
+build_ios.sh
 ```
 
 Here is [EvaluateScript.cpp](examples/EvaluateScript.cpp), a simple main program that evaluates the JavaScript expression `21 / 7` and prints `3` to the terminal. To run it on Windows type `./build.debug/examples/EvaluateScript.exe` and to run it on OS X type `./build.debug/examples/EvaluateScript`.
