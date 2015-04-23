@@ -84,6 +84,7 @@ function(find_xcode_framework_dirs VAR sdk)
   set(XCODE_FRAMEWORK_DIRS "${XCODE_SDKROOT}/System/Library/Frameworks" "${XCODE_DEVELOPER_DIR}/Library/Frameworks")
   list(REMOVE_DUPLICATES XCODE_FRAMEWORK_DIRS)
   set("${VAR}" ${XCODE_FRAMEWORK_DIRS} PARENT_SCOPE)
+  set(XCODE_SDKROOT ${XCODE_SDKROOT} PARENT_SCOPE)
 endfunction()
 
 # Prepend the user-selected Xcode SDK framework directories (via
@@ -101,6 +102,9 @@ function(config_cmake_system_framework_path sdk)
   list(REMOVE_DUPLICATES CMAKE_SYSTEM_FRAMEWORK_PATH)
   # Make sure our caller can see the changes.
   set(CMAKE_SYSTEM_FRAMEWORK_PATH ${CMAKE_SYSTEM_FRAMEWORK_PATH} PARENT_SCOPE)
+  if ("${sdk}" MATCHES "iphoneos" OR "${sdk}" MATCHES "iphonesimulator")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -arch ${ARCH} -isysroot ${XCODE_SDKROOT} -I${XCODE_SDKROOT}/usr/include" PARENT_SCOPE)
+  endif()
 endfunction()
 
 # ocunit_test(name libs srcs...)
