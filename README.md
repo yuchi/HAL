@@ -38,14 +38,14 @@ Step 3. Install [64-bit Cygwin](http://cygwin.com/setup-x86_64.exe).
 
 Step 4. Install JavascriptCore
 
-Download our pre-compiled version of JavascriptCore [JavaScriptCore-Windows-1411436814.zip (276 MB)](http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1411436814.zip), unzip anywhere (the location doesn't matter) and set the environment variable JavaScriptCore_HOME to where you unzipped it.
+Download our pre-compiled version of JavascriptCore [JavaScriptCore-Windows-1430359270.zip (428 MB)](http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1430359270.zip), unzip anywhere (the location doesn't matter) and set the environment variable JavaScriptCore_HOME to where you unzipped it.
 
 Just run the following commands from your Cygwin bash prompt to setup your development environment for JavaScriptCore_HOME before
 proceeding:
 
 ```bash
-$ curl -O http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1411436814.zip
-$ unzip JavaScriptCore-Windows-1411436814.zip
+$ curl -O http://timobile.appcelerator.com.s3.amazonaws.com/jscore/JavaScriptCore-Windows-1430359270.zip
+$ unzip JavaScriptCore-Windows-1430359270.zip
 ```
 
 step 5. Install Google Test
