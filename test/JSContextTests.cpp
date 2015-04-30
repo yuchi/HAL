@@ -9,6 +9,8 @@
 #include "HAL/HAL.hpp"
 
 #include "gtest/gtest.h"
+#include <chrono>
+#include <thread>
 
 #define XCTAssertEqual    ASSERT_EQ
 #define XCTAssertNotEqual ASSERT_NE
@@ -32,6 +34,17 @@ TEST_F(JSContextTests, JSEvaluateScript) {
   JSContext js_context = js_context_group.CreateContext();
   JSValue js_value     = js_context.JSEvaluateScript("'Hello, world.'");
   XCTAssertEqual("Hello, world.", static_cast<std::string>(js_value));
+}
+
+TEST_F(JSContextTests, TIMOB_18855) {
+  JSContext js_context = js_context_group.CreateContext();
+  js_context.JSEvaluateScript("var start=new Date().getTime();");
+  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+  JSValue js_value = js_context.JSEvaluateScript("new Date().getTime() - start;");
+  XCTAssertFalse(static_cast<std::int32_t>(js_value) == 1);
+  XCTAssertTrue(static_cast<std::int32_t>(js_value) >  999);
+  // assuming JS evaluation is done within 500 msec...
+  XCTAssertTrue(static_cast<std::int32_t>(js_value) < 1500);
 }
 
 TEST_F(JSContextTests, JSEvaluateScriptWithError) {
