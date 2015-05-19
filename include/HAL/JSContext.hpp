@@ -315,8 +315,34 @@ namespace HAL {
     JSFunction CreateFunction(const JSString& body, const std::vector<JSString>& parameter_names, const JSString& function_name) const;
     JSFunction CreateFunction(const JSString& body, const std::vector<JSString>& parameter_names, const JSString& function_name, const JSString& source_url, int starting_line_number = 1) const;
 
+    /*!
+     @method
+     
+     @abstract Create a JavaScript function with a given callback
+     as its implementation by C++11 lambda/std::function.
+
+     @param callback A C++11 function to invoke when the function is called
+     k
+     @param function_name An optional JSString containing the
+     function's name. This will be used when converting the function
+     to a string. An empty string creates an anonymous function.
+
+     @result A JSObject that is a function. The object's prototype
+     will be the default function prototype.
+     */
     JSFunction CreateFunction(JSFunctionCallback& callback) const;
     JSFunction CreateFunction(const JSString& function_name, JSFunctionCallback& callback) const;
+
+    /*!
+     @method
+     
+     @abstract Create a JavaScript function which does basically nothing.
+     This is useful when you need a JSFunction as class member which does nothing by default.
+
+     @result A JSObject that is a function. The object's prototype
+     will be the default function prototype.
+     */
+    JSFunction CreateFunction() const;
     
     /* Script Evaluation */
     

@@ -500,4 +500,9 @@ TEST_F(JSObjectTests, JSFunctionCallback) {
   global_object.SetProperty("testJSFunctionCallback", js_function);
   
   XCTAssertEqual("Hello, JavaScript", static_cast<std::string>(js_context.JSEvaluateScript("testJSFunctionCallback('JavaScript');")));
+
+  // testing NOOP function
+  JSFunction noop_function = js_context.CreateFunction();
+  XCTAssertTrue(noop_function(noop_function).IsUndefined());
+  
 }

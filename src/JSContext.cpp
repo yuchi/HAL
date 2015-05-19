@@ -176,6 +176,11 @@ namespace HAL {
     return JSFunction(JSContext(js_global_context_ref__), body, parameter_names, function_name, source_url, starting_line_number);
   }
 
+  JSFunction JSContext::CreateFunction() const {
+    JSFunctionCallback noop = [](const std::vector<JSValue>, JSObject& this_object){ return this_object.get_context().CreateUndefined(); };
+    return CreateFunction(noop);
+  }
+
   JSFunction JSContext::CreateFunction(JSFunctionCallback& callback) const {
     return CreateFunction(JSString(), callback);
   }

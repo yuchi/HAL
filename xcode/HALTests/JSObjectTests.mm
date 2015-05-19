@@ -509,11 +509,16 @@ namespace UnitTestConstants {
   XCTAssertEqual("Hello, world", static_cast<std::string>(js_function("world", js_function)));
   XCTAssertFalse(js_function.IsArray());
   XCTAssertFalse(js_function.IsError());
-	
+
   auto global_object = js_context.get_global_object();
   global_object.SetProperty("testJSFunctionCallback", js_function);
-	
+
   XCTAssertEqual("Hello, JavaScript", static_cast<std::string>(js_context.JSEvaluateScript("testJSFunctionCallback('JavaScript');")));
+
+  // testing NOOP function
+  JSFunction noop_function = js_context.CreateFunction();
+  XCTAssertTrue(noop_function(noop_function).IsUndefined());
+
 }
 
 @end
