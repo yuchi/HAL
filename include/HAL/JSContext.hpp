@@ -40,6 +40,8 @@ namespace HAL {
   }}
 
 namespace HAL {
+
+  typedef std::function<JSValue(const std::vector<JSValue>, JSObject&)> JSFunctionCallback;
   
   /*!
    @class
@@ -312,7 +314,9 @@ namespace HAL {
     JSFunction CreateFunction(const JSString& body, const std::vector<JSString>& parameter_names) const;
     JSFunction CreateFunction(const JSString& body, const std::vector<JSString>& parameter_names, const JSString& function_name) const;
     JSFunction CreateFunction(const JSString& body, const std::vector<JSString>& parameter_names, const JSString& function_name, const JSString& source_url, int starting_line_number = 1) const;
-    
+
+    JSFunction CreateFunction(JSFunctionCallback& callback) const;
+    JSFunction CreateFunction(const JSString& function_name, JSFunctionCallback& callback) const;
     
     /* Script Evaluation */
     

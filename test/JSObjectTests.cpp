@@ -482,3 +482,22 @@ TEST_F(JSObjectTests, JSFunction) {
   XCTAssertFalse(js_function.IsArray());
   XCTAssertFalse(js_function.IsError());
 }
+
+TEST_F(JSObjectTests, JSFunctionCallback) {
+  JSContext js_context = js_context_group.CreateContext();
+  JSFunctionCallback callback = [js_context](const std::vector<JSValue> arguments, JSObject& this_object) {
+    return js_context.CreateString("Hello, "+static_cast<std::string>(arguments.at(0)));
+  };
+
+  JSFunction js_function = js_context.CreateFunction(callback);
+
+  XCTAssertTrue(js_function.IsFunction());
+  XCTAssertEqual("Hello, world", static_cast<std::string>(js_function("world", js_function)));
+  XCTAssertFalse(js_function.IsArray());
+  XCTAssertFalse(js_function.IsError());
+  
+  auto global_object = js_context.get_global_object();
+  global_object.SetProperty("testJSFunctionCallback", js_function);
+  
+  XCTAssertEqual("Hello, JavaScript", static_cast<std::string>(js_context.JSEvaluateScript("testJSFunctionCallback('JavaScript');")));
+}

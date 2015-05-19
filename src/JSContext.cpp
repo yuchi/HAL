@@ -175,6 +175,15 @@ namespace HAL {
     HAL_JSCONTEXT_LOCK_GUARD;
     return JSFunction(JSContext(js_global_context_ref__), body, parameter_names, function_name, source_url, starting_line_number);
   }
+
+  JSFunction JSContext::CreateFunction(JSFunctionCallback& callback) const {
+    return CreateFunction(JSString(), callback);
+  }
+
+  JSFunction JSContext::CreateFunction(const JSString& function_name, JSFunctionCallback& callback) const {
+    HAL_JSCONTEXT_LOCK_GUARD;
+    return JSFunction(JSContext(js_global_context_ref__), function_name, callback);
+  }
   
   JSValue JSContext::JSEvaluateScript(const JSString& script) const {
     return JSEvaluateScript(script, get_global_object(), JSString());
