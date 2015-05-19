@@ -65,4 +65,50 @@ JSArray::operator std::vector<JSValue>() const {
 	return items;
 }
 
+JSArray::operator std::vector<bool>() const {
+	std::vector<bool> items;
+	const auto length = GetLength();
+	for (uint32_t i = 0; i < length; i++) {
+		items.push_back(static_cast<bool>(GetProperty(i)));
+	}
+	return items;
+}
+
+JSArray::operator std::vector<std::string>() const {
+	std::vector<std::string> items;
+	const auto length = GetLength();
+	for (uint32_t i = 0; i < length; i++) {
+		items.push_back(static_cast<std::string>(GetProperty(i)));
+	}
+	return items;
+}
+
+JSArray::operator std::vector<double>() const {
+	std::vector<double> items;
+	const auto length = GetLength();
+	for (uint32_t i = 0; i < length; i++) {
+		items.push_back(static_cast<double>(GetProperty(i)));
+	}
+	return items;
+}
+
+JSArray::operator std::vector<int32_t>() const {
+	std::vector<int32_t> items;
+	const auto length = GetLength();
+	for (uint32_t i = 0; i < length; i++) {
+		items.push_back(static_cast<int32_t>(GetProperty(i)));
+	}
+	return items;
+}
+
+JSArray::operator std::vector<uint32_t>() const {
+	std::vector<uint32_t> items;
+	const auto length = GetLength();
+	for (uint32_t i = 0; i < length; i++) {
+		items.push_back(static_cast<uint32_t>(GetProperty(i)));
+	}
+	return items;
+}
+
+
 } // namespace HAL {
