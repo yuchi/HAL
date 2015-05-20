@@ -354,6 +354,7 @@ namespace HAL {
     // access to the following JSObject constructor.
     
     friend class JSValue;
+    friend class JSFunction;
     
     // The JSExportClass static functions also need access to
     // GetPrivate and SetPrivate.
@@ -370,8 +371,6 @@ namespace HAL {
     explicit operator JSObjectRef() const HAL_NOEXCEPT {
       return js_object_ref__;
     }
-    
-  private:
     
     /*!
      @method

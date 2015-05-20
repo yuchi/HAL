@@ -35,11 +35,58 @@ public:
      @result An array of JSValue with the result of conversion.
      */
     virtual operator std::vector<JSValue>() const final;
-	
+
+    /*!
+     @method
+     
+     @abstract Convert this JSArray to a std::vector<bool>
+     
+     @result An array of bool with the result of conversion.
+     */
+    virtual operator std::vector<bool>() const final;
+
+    /*!
+     @method
+     
+     @abstract Convert this JSArray to a std::vector<std::string>
+     
+     @result An array of std::string with the result of conversion.
+     */
+    virtual operator std::vector<std::string>() const final;
+
+    /*!
+     @method
+     
+     @abstract Convert this JSArray to a std::vector<double>
+     
+     @result An array of double with the result of conversion.
+     */
+    virtual operator std::vector<double>() const final;
+
+    /*!
+     @method
+     
+     @abstract Convert this JSArray to a std::vector<int32_t>
+     
+     @result An array of int32_t with the result of conversion.
+     */
+    virtual operator std::vector<int32_t>() const final;
+
+    /*!
+     @method
+     
+     @abstract Convert this JSArray to a std::vector<uint32_t>
+     
+     @result An array of uint32_t with the result of conversion.
+     */
+    virtual operator std::vector<uint32_t>() const final;
+
     /*!
      @method
      
      @abstract Return length of this JSArray
+     The length is converted to an uint32_t according to
+     the rules specified in ECMA-262 15.4.
      
      @result Length of this JSArray
      */

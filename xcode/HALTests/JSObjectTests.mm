@@ -353,6 +353,119 @@ namespace UnitTestConstants {
   XCTAssertEqual(nullptr, export_items.at(3));
 }
 
+- (void)testStringVectorFromJSArray {
+  JSContext js_context = js_context_group.CreateContext();
+
+  std::vector<JSValue> args = { 
+    js_context.CreateString("Hello 1"),
+    js_context.CreateString("Hello 2"),
+    js_context.CreateString("Hello 3")
+  };
+
+  JSObject js_object = js_context.CreateArray(args);
+  XCTAssertTrue(js_object.IsArray());
+  JSArray js_array = static_cast<JSArray>(js_object);
+  XCTAssertTrue(js_array.IsArray());
+  auto items = static_cast<std::vector<std::string>>(js_array);
+
+  XCTAssertEqual(3, js_array.GetLength());
+  XCTAssertEqual(3, items.size());
+
+  XCTAssertEqual("Hello 1", items.at(0));
+  XCTAssertEqual("Hello 2", items.at(1));
+  XCTAssertEqual("Hello 3", items.at(2));
+}
+
+- (void)testBoolVectorFromJSArray {
+  JSContext js_context = js_context_group.CreateContext();
+
+  std::vector<JSValue> args = { 
+    js_context.CreateBoolean(true),
+    js_context.CreateBoolean(false),
+    js_context.CreateBoolean(true)
+  };
+
+  JSObject js_object = js_context.CreateArray(args);
+  XCTAssertTrue(js_object.IsArray());
+  JSArray js_array = static_cast<JSArray>(js_object);
+  XCTAssertTrue(js_array.IsArray());
+  auto items = static_cast<std::vector<bool>>(js_array);
+
+  XCTAssertEqual(3, js_array.GetLength());
+  XCTAssertEqual(3, items.size());
+
+  XCTAssertTrue(items.at(0));
+  XCTAssertFalse(items.at(1));
+  XCTAssertTrue(items.at(2));
+}
+
+- (void)testDoubleVectorFromJSArray {
+  JSContext js_context = js_context_group.CreateContext();
+
+  std::vector<JSValue> args = { 
+    js_context.CreateNumber(1.1),
+    js_context.CreateNumber(1.12),
+    js_context.CreateNumber(1.123)
+  };
+
+  JSObject js_object = js_context.CreateArray(args);
+  XCTAssertTrue(js_object.IsArray());
+  JSArray js_array = static_cast<JSArray>(js_object);
+  XCTAssertTrue(js_array.IsArray());
+  auto items = static_cast<std::vector<double>>(js_array);
+
+  XCTAssertEqual(3, js_array.GetLength());
+  XCTAssertEqual(3, items.size());
+
+  XCTAssertEqual(1.1, items.at(0));
+  XCTAssertEqual(1.12, items.at(1));
+  XCTAssertEqual(1.123, items.at(2));
+}
+
+- (void)testIntVectorFromJSArray {
+  JSContext js_context = js_context_group.CreateContext();
+
+  std::vector<JSValue> args = { 
+    js_context.CreateNumber(123),
+    js_context.CreateNumber(123.4),
+    js_context.CreateNumber(-123)
+  };
+
+  JSObject js_object = js_context.CreateArray(args);
+  XCTAssertTrue(js_object.IsArray());
+  JSArray js_array = static_cast<JSArray>(js_object);
+  XCTAssertTrue(js_array.IsArray());
+  auto items = static_cast<std::vector<std::int32_t>>(js_array);
+
+  XCTAssertEqual(3, js_array.GetLength());
+  XCTAssertEqual(3, items.size());
+
+  XCTAssertEqual(123, items.at(0));
+  XCTAssertEqual(123, items.at(1));
+  XCTAssertEqual(-123, items.at(2));
+}
+
+- (void)testUIntVectorFromJSArray {
+  JSContext js_context = js_context_group.CreateContext();
+
+  std::vector<JSValue> args = { 
+    js_context.CreateNumber(123),
+    js_context.CreateNumber(123.4)
+  };
+
+  JSObject js_object = js_context.CreateArray(args);
+  XCTAssertTrue(js_object.IsArray());
+  JSArray js_array = static_cast<JSArray>(js_object);
+  XCTAssertTrue(js_array.IsArray());
+  auto items = static_cast<std::vector<std::uint32_t>>(js_array);
+
+  XCTAssertEqual(2, js_array.GetLength());
+  XCTAssertEqual(2, items.size());
+
+  XCTAssertEqual(123, items.at(0));
+  XCTAssertEqual(123, items.at(1));
+}
+
 - (void)testJSDate {
   JSContext js_context = js_context_group.CreateContext();
   JSDate js_date = js_context.CreateDate();
@@ -382,6 +495,30 @@ namespace UnitTestConstants {
   XCTAssertEqual("Hello, world", static_cast<std::string>(js_function("world", js_function)));
   XCTAssertFalse(js_function.IsArray());
   XCTAssertFalse(js_function.IsError());
+}
+
+- (void)testJSFunctionCallback {
+  JSContext js_context = js_context_group.CreateContext();
+  JSFunctionCallback callback = [js_context](const std::vector<JSValue> arguments, JSObject& this_object) {
+    return js_context.CreateString("Hello, "+static_cast<std::string>(arguments.at(0)));
+  };
+
+  JSFunction js_function = js_context.CreateFunction(callback);
+
+  XCTAssertTrue(js_function.IsFunction());
+  XCTAssertEqual("Hello, world", static_cast<std::string>(js_function("world", js_function)));
+  XCTAssertFalse(js_function.IsArray());
+  XCTAssertFalse(js_function.IsError());
+
+  auto global_object = js_context.get_global_object();
+  global_object.SetProperty("testJSFunctionCallback", js_function);
+
+  XCTAssertEqual("Hello, JavaScript", static_cast<std::string>(js_context.JSEvaluateScript("testJSFunctionCallback('JavaScript');")));
+
+  // testing NOOP function
+  JSFunction noop_function = js_context.CreateFunction();
+  XCTAssertTrue(noop_function(noop_function).IsUndefined());
+
 }
 
 @end
