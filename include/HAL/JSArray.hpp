@@ -85,6 +85,8 @@ public:
      @method
      
      @abstract Return length of this JSArray
+     The length is converted to an uint32_t according to
+     the rules specified in ECMA-262 15.4.
      
      @result Length of this JSArray
      */

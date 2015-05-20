@@ -57,8 +57,9 @@ uint32_t JSArray::GetLength() const HAL_NOEXCEPT {
 }
 
 JSArray::operator std::vector<JSValue>() const {
-	std::vector<JSValue> items;
 	const auto length = GetLength();
+	std::vector<JSValue> items;
+	items.reserve(length);
 	for (uint32_t i = 0; i < length; i++) {
 		items.push_back(GetProperty(i));
 	}
@@ -66,8 +67,9 @@ JSArray::operator std::vector<JSValue>() const {
 }
 
 JSArray::operator std::vector<bool>() const {
-	std::vector<bool> items;
 	const auto length = GetLength();
+	std::vector<bool> items;
+	items.reserve(length);
 	for (uint32_t i = 0; i < length; i++) {
 		items.push_back(static_cast<bool>(GetProperty(i)));
 	}
@@ -75,8 +77,9 @@ JSArray::operator std::vector<bool>() const {
 }
 
 JSArray::operator std::vector<std::string>() const {
-	std::vector<std::string> items;
 	const auto length = GetLength();
+	std::vector<std::string> items;
+	items.reserve(length);
 	for (uint32_t i = 0; i < length; i++) {
 		items.push_back(static_cast<std::string>(GetProperty(i)));
 	}
@@ -84,8 +87,9 @@ JSArray::operator std::vector<std::string>() const {
 }
 
 JSArray::operator std::vector<double>() const {
-	std::vector<double> items;
 	const auto length = GetLength();
+	std::vector<double> items;
+	items.reserve(length);
 	for (uint32_t i = 0; i < length; i++) {
 		items.push_back(static_cast<double>(GetProperty(i)));
 	}
@@ -93,8 +97,9 @@ JSArray::operator std::vector<double>() const {
 }
 
 JSArray::operator std::vector<int32_t>() const {
-	std::vector<int32_t> items;
 	const auto length = GetLength();
+	std::vector<int32_t> items;
+	items.reserve(length);
 	for (uint32_t i = 0; i < length; i++) {
 		items.push_back(static_cast<int32_t>(GetProperty(i)));
 	}
@@ -102,8 +107,9 @@ JSArray::operator std::vector<int32_t>() const {
 }
 
 JSArray::operator std::vector<uint32_t>() const {
-	std::vector<uint32_t> items;
 	const auto length = GetLength();
+	std::vector<uint32_t> items;
+	items.reserve(length);
 	for (uint32_t i = 0; i < length; i++) {
 		items.push_back(static_cast<uint32_t>(GetProperty(i)));
 	}

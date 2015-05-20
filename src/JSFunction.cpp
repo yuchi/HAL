@@ -97,6 +97,7 @@ JSValueRef JSFunction::JSObjectCallAsFunctionCallback(JSContextRef context_ref, 
     }
     const auto ctx = JSContext(context_ref);
     std::vector<JSValue> arguments;
+    arguments.reserve(argument_count);
     for (size_t i = 0; i < argument_count; i++) {
         arguments.push_back(JSValue(ctx, arguments_array[i]));
     }
