@@ -68,13 +68,8 @@ void JSFunction::RegisterJSFunctionCallback(JSObjectRef js_object_ref, JSFunctio
 
 void JSFunction::UnRegisterJSFunctionCallback(JSObjectRef js_object_ref) {
     HAL_JSOBJECT_LOCK_GUARD_STATIC;
-    const auto key      = reinterpret_cast<std::intptr_t>(js_object_ref);
-    const auto position = js_object_ref_to_js_function__.find(key);
-    const bool found    = position != js_object_ref_to_js_function__.end();
-    
-    if (found) {
-        js_object_ref_to_js_function__.erase(key);
-    }
+    const auto key = reinterpret_cast<std::intptr_t>(js_object_ref);
+    js_object_ref_to_js_function__.erase(key);
 }
 
 JSFunctionCallback JSFunction::FindJSFunctionCallback(JSObjectRef js_object_ref) {
