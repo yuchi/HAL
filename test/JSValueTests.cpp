@@ -32,6 +32,16 @@ class JSValueTests : public testing::Test {
   JSContextGroup js_context_group;
 };
 
+TEST_F(JSValueTests, JSValue_ptr_t) {
+  JSContext js_context = js_context_group.CreateContext();
+  auto js_value = js_context.CreateNumber(123);
+
+  auto js_value_ref = static_cast<JSValueRef>(js_value);
+  auto js_value_ptr = reinterpret_cast<std::intptr_t>(js_value_ref);
+  auto js_value2 = JSValue(js_context, reinterpret_cast<JSValueRef>(js_value_ptr));
+  XCTAssertTrue(js_value == js_value2);
+}
+
 TEST_F(JSValueTests, JSUndefined) {
   JSContext js_context = js_context_group.CreateContext();
   JSUndefined js_undefined = js_context.CreateUndefined();

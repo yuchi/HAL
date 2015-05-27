@@ -82,19 +82,16 @@ namespace HAL {
     JSContextGroup(JSContextGroup&&)          HAL_NOEXCEPT;
     JSContextGroup& operator=(JSContextGroup) HAL_NOEXCEPT;
     void swap(JSContextGroup&)                HAL_NOEXCEPT;
-    
-  private:
-    
+
     // For interoperability with the JavaScriptCore C API.
     explicit JSContextGroup(JSContextGroupRef js_context_group_ref) HAL_NOEXCEPT;
-    
-    // JSContext needs access to operator JSContextGroupRef().
-    friend class JSContext;
     
     explicit operator JSContextGroupRef() const HAL_NOEXCEPT {
       return js_context_group_ref__;
     }
-    
+     
+  private:
+  
     // Prevent heap based objects.
     void* operator new(std::size_t)     = delete; // #1: To prevent allocation of scalar objects
     void* operator new [] (std::size_t) = delete; // #2: To prevent allocation of array of objects
