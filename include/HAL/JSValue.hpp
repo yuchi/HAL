@@ -316,34 +316,7 @@ namespace HAL {
     JSValue(JSValue&&)           HAL_NOEXCEPT;
     JSValue& operator=(JSValue);
     void swap(JSValue&)          HAL_NOEXCEPT;
-    
-  protected:
-    
-    // A JSContext can create a JSValue.
-    friend class JSContext;
-    
-    JSValue(const JSContext& js_context, const JSString& js_string, bool parse_as_json = false);
-    
-    
-    // These classes create a JSValue using the following constructor.
-    // friend class JSUndefined;
-    // friend class JSNull;
-    // friend class JSBoolean;
-    // friend class JSNumber;
-    friend class JSArray;    // for generating error messages
-    friend class JSDate;     // for generating error messages
-    friend class JSFunction; // for generating error messages
-    friend class JSRegExp;   // for generating error messages
-    friend class JSError;    // for generating error messages
-    
-    template<typename T>
-    friend class detail::JSExportClass;
-    
-    // JSObject needs access to the JSValue constructor for
-    // GetPrototype() and for generating error messages, as well as
-    // operator JSValueRef() for SetPrototype().
-    friend class JSObject;
-    
+
     // For interoperability with the JavaScriptCore C API.
     JSValue(const JSContext& js_context, JSValueRef js_value_ref) HAL_NOEXCEPT;
     
@@ -354,7 +327,14 @@ namespace HAL {
       }
       return js_value_ref__;
     }
+     
+  protected:
     
+    // A JSContext can create a JSValue.
+    friend class JSContext;
+    
+    JSValue(const JSContext& js_context, const JSString& js_string, bool parse_as_json = false);
+  
     // These classes and functions need access to operator
     // JSValueRef().
     HAL_EXPORT friend bool operator==(const JSValue& lhs, const JSValue& rhs) HAL_NOEXCEPT;

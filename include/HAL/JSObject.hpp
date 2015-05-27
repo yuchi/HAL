@@ -347,15 +347,6 @@ namespace HAL {
     static JSObject FindJSObjectFromPrivateData(JSContext js_context, void* private_data);
     static void     UnRegisterPrivateData(void* private_data);
     static void     RegisterPrivateData(JSObjectRef js_object_ref, void* private_data);
-    
-  protected:
-    
-    // In addition to derived classes, JSValue and JSExportClass need
-    // access to the following JSObject constructor.
-    
-    friend class JSValue;
-    friend class JSFunction;
-    
     // The JSExportClass static functions also need access to
     // GetPrivate and SetPrivate.
     template<typename T>
@@ -364,14 +355,13 @@ namespace HAL {
     // For interoperability with the JavaScriptCore C API.
     JSObject(const JSContext& js_context, JSObjectRef js_object_ref);
     
-    // These classes need access to operator JSObjectRef().
-    friend class JSPropertyNameArray;
-    
     // For interoperability with the JavaScriptCore C API.
     explicit operator JSObjectRef() const HAL_NOEXCEPT {
       return js_object_ref__;
     }
-    
+     
+  protected:
+  
     /*!
      @method
      

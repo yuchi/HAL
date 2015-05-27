@@ -57,6 +57,16 @@ TEST_F(JSObjectTests, JSPropertyAttribute) {
   XCTAssertEqual(1, attributes.size());
 }
 
+TEST_F(JSObjectTests, JSObject_ptr_t) {
+  JSContext js_context = js_context_group.CreateContext();
+  JSObject js_object = js_context.CreateObject();
+
+  auto js_object_ref = static_cast<JSObjectRef>(js_object);
+  auto js_object_ptr = reinterpret_cast<std::intptr_t>(js_object_ref);
+  auto js_object2 = JSObject(js_context, reinterpret_cast<JSObjectRef>(js_object_ptr));
+  XCTAssertTrue(js_object == js_object2);
+} 
+
 TEST_F(JSObjectTests, API) {
   JSContext js_context = js_context_group.CreateContext();
   JSObject js_object = js_context.CreateObject();

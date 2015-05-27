@@ -442,6 +442,16 @@ namespace HAL {
     JSContext(JSContext&&)          HAL_NOEXCEPT;
     JSContext& operator=(JSContext) HAL_NOEXCEPT;
     void swap(JSContext&)           HAL_NOEXCEPT;
+
+    // For interoperability with the JavaScriptCore C API.
+    explicit operator JSContextRef() const HAL_NOEXCEPT {
+      return js_global_context_ref__;
+    }
+    
+    explicit JSContext(JSContextRef js_context_ref) HAL_NOEXCEPT;
+    
+    // For interoperability with the JavaScriptCore C API.
+    explicit JSContext(JSGlobalContextRef js_global_context_ref__) HAL_NOEXCEPT;
     
   private:
     
@@ -451,39 +461,9 @@ namespace HAL {
     
     JSContext(const JSContextGroup& js_context_group, const JSClass& global_object_class) HAL_NOEXCEPT;
     
-    // These classes and functions need access to operator
-    // JSContextRef().
-    friend class JSValue;
-    friend class JSUndefined;
-    friend class JSNull;
-    friend class JSBoolean;
-    friend class JSNumber;
-    friend class JSObject;
-    friend class JSArray;
-    friend class JSDate;
-    friend class JSError;
-    friend class JSRegExp;
-    friend class JSFunction;
-    friend class JSPropertyNameArray;
-    
     HAL_EXPORT friend bool operator==(const JSValue& lhs, const JSValue& rhs) HAL_NOEXCEPT;
     HAL_EXPORT friend std::vector<JSValue> detail::to_vector(const JSContext&, size_t, const JSValueRef[]);
-    
-    // For interoperability with the JavaScriptCore C API.
-    explicit operator JSContextRef() const HAL_NOEXCEPT {
-      return js_global_context_ref__;
-    }
-    
-    // Only the JSExportClass static functions create a
-    // JSContext using the following constructor.
-    template<typename T>
-    friend class detail::JSExportClass;
-    
-    explicit JSContext(JSContextRef js_context_ref) HAL_NOEXCEPT;
-    
-    // For interoperability with the JavaScriptCore C API.
-    explicit JSContext(JSGlobalContextRef js_global_context_ref__) HAL_NOEXCEPT;
-    
+   
     // Prevent heap based objects.
     static void * operator new(std::size_t);       // #1: To prevent allocation of scalar objects
     static void * operator new [] (std::size_t);   // #2: To prevent allocation of array of objects

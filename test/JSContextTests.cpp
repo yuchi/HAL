@@ -36,6 +36,22 @@ TEST_F(JSContextTests, JSEvaluateScript) {
   XCTAssertEqual("Hello, world.", static_cast<std::string>(js_value));
 }
 
+TEST_F(JSContextTests, JSContext_intptr_t) {
+  JSContext js_context = js_context_group.CreateContext();
+  auto context_ref = static_cast<JSContextRef>(js_context);
+  auto context_ptr = reinterpret_cast<std::intptr_t>(context_ref);
+  auto js_context2 = JSContext(reinterpret_cast<JSContextRef>(context_ptr));
+  XCTAssertTrue(js_context == js_context2);
+}
+
+TEST_F(JSContextTests, JSContextGroup_intptr_t) {
+  JSContext js_context = js_context_group.CreateContext();
+  auto context_group_ref = static_cast<JSContextGroupRef>(js_context_group);
+  auto context_group_ptr = reinterpret_cast<std::intptr_t>(context_group_ref);
+  auto js_context_group2 = JSContextGroup(reinterpret_cast<JSContextGroupRef>(context_group_ptr));
+  XCTAssertTrue(js_context_group == js_context_group2);
+}
+
 TEST_F(JSContextTests, TIMOB_18855) {
   JSContext js_context = js_context_group.CreateContext();
   js_context.JSEvaluateScript("var start=new Date().getTime();");
