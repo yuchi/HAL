@@ -74,7 +74,7 @@ build_ios.sh
 ```
 
 Here is [EvaluateScript.cpp](examples/EvaluateScript.cpp), a simple main program that evaluates the JavaScript expression `21 / 7` and prints `3` to the terminal. To run it on Windows type `./build.debug/examples/EvaluateScript.exe` and to run it on OS X type `./build.debug/examples/EvaluateScript`.
-```
+```c++
 #include "HAL/HAL.hpp"
 #include <iostream>
 
@@ -112,13 +112,13 @@ To use the library you will always want to include the main header:
 
 These are the main C++ classes in the library and their inheritance hierarchy:
 
-### JSContextGroup and JSContext 
+### JSContextGroup and JSContext
 
 A [JSContext](include/HAL/JSContext.hpp) is an RAII wrapper around a [JSContextRef](https://github.com/WebKit/webkit/blob/master/Source/JavaScriptCore/API/JSContext.h), the JavaScriptCore C API representation of a JavaScript execution context that holds the global object and other execution state.
 
 JSContexts are created by the [JSContextGroup](include/HAL/JSContextGroup.hpp) `CreateContext` member function. JSContextGroups may be created with either the default or custom global objects. See the individual JSContextGroup constructors for more details.
    
-JavaScript scripts may execute concurrently with scripts executing in other JSContexts, and JSContexts within the same JSContextGroup may share and exchange their JSValues anad JSObjects with one another.
+JavaScript scripts may execute concurrently with scripts executing in other JSContexts, and JSContexts within the same JSContextGroup may share and exchange their JSValues and JSObjects with one another.
    
 A JSContext is the only way to create a [JSValue](include/HAL/JSValue.hpp) and a [JSObject](include/HAL/JSObject.hpp).
 
