@@ -339,7 +339,7 @@ namespace HAL {
     if (found) {
       auto tuple = position -> second;
       ++std::get<1>(tuple);
-      js_object_ref_to_js_context_ref_map__.emplace(key, tuple);
+      js_object_ref_to_js_context_ref_map__[key] = tuple;
       
       HAL_LOG_DEBUG("JSObject::RegisterJSContext: JSObjectRef = ", js_object_ref, ", JSContextRef = ", js_context_ref, " count = ", std::get<1>(tuple));
     } else {
@@ -367,7 +367,7 @@ namespace HAL {
       if (std::get<1>(tuple) == 0) {
         js_object_ref_to_js_context_ref_map__.erase(key);
       } else {
-        js_object_ref_to_js_context_ref_map__.emplace(key, tuple);
+        js_object_ref_to_js_context_ref_map__[key] = tuple;
       }
       HAL_LOG_DEBUG("JSObject::UnRegisterJSContext: JSObjectRef = ", js_object_ref, ", JSContextRef = ", js_context_ref, " count = ", std::get<1>(tuple));
     } else {
